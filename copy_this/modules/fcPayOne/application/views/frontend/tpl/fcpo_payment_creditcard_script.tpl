@@ -4,91 +4,48 @@
         fields: {
             cardpan: {
                 selector: "cardpan", // put name of your div-container here
-                type: "[{$oView->getConfigParam('sFCPOCCNumberType')}]", // text (default), password, tel
-                size: "[{$oView->getConfigParam('sFCPOCCNumberCount')}]",
-                maxlength: "[{$oView->getConfigParam('sFCPOCCNumberMax')}]",
-                [{if $oView->getConfigParam('sFCPOCCNumberStyle') == "custom"}]
-                    style: "[{$oView->getConfigParam('sFCPOCCNumberCSS')}]",
-                [{/if}]
-                [{if $oView->getConfigParam('sFCPOCCNumberIframe') == "custom"}]
-                    iframe: {
-                        width: "[{$oView->getConfigParam('sFCPOCCNumberWidth')}]",
-                        height: "[{$oView->getConfigParam('sFCPOCCNumberHeight')}]"
-                    }
-                [{/if}]
+                type: "tel", // text (default), password, tel
+                size: 30,
+                maxlength: 16
             },
-            [{if $oView->getConfigParam('blFCPOCCUseCvc')}]
-                cardcvc2: {
-                    selector: "cardcvc2", // put name of your div-container here
-                    type: "[{$oView->getConfigParam('sFCPOCCCVCType')}]", // select(default), text, password, tel
-                    size: "[{$oView->getConfigParam('sFCPOCCCVCCount')}]",
-                    maxlength: "[{$oView->getConfigParam('sFCPOCCCVCMax')}]",
-                    [{if $oView->getConfigParam('sFCPOCCCVCStyle') == "custom"}]
-                        style: "[{$oView->getConfigParam('sFCPOCCCVCCSS')}]",
-                    [{/if}]
-                    [{if $oView->getConfigParam('sFCPOCCCVCIframe') == "custom"}]
-                        iframe: {
-                            width: "[{$oView->getConfigParam('sFCPOCCCVCWidth')}]",
-                            height: "[{$oView->getConfigParam('sFCPOCCCVCHeight')}]"
-                        }
-                    [{/if}]
-                },
-            [{/if}]
+            cardcvc2: {
+                selector: "cardcvc", // put name of your div-container here
+                type: "tel", // select(default), text, password, tel
+                size: 30,
+                maxlength: 4,
+                length: { "A": 4, "V": 3, "M": 3, "J": 3, "D": 3, "O": 3, "C": 3, "B": 3 }
+            },
             cardexpiremonth: {
                 selector: "cardexpiremonth", // put name of your div-container here
                 type: "select", // select(default), text, password, tel
-                size: "[{$oView->getConfigParam('sFCPOCCMonthCount')}]",
-                maxlength: "[{$oView->getConfigParam('sFCPOCCMonthMax')}]",
-                [{if $oView->getConfigParam('sFCPOCCMonthIframe') == "custom"}]
-                    style: "[{$oView->getConfigParam('sFCPOCCMonthCSS')}]",
-                [{/if}]
-                [{if $oView->getConfigParam('sFCPOCCMonthIframe') == "custom"}]
-                    iframe: {
-                        width: "[{$oView->getConfigParam('sFCPOCCMonthWidth')}]",
-                        height: "[{$oView->getConfigParam('sFCPOCCMonthHeight')}]"
-                    }
-                [{/if}]
+                size: 5,
+                maxlength: 4,
+
             },
             cardexpireyear: {
                 selector: "cardexpireyear", // put name of your div-container here
                 type: "select", // select(default), text, password, tel
-                size: "[{$oView->getConfigParam('sFCPOCCYearCount')}]",
-                maxlength: "[{$oView->getConfigParam('sFCPOCCYearMax')}]",
-                [{if $oView->getConfigParam('sFCPOCCYearIframe') == "custom"}]
-                    style: "[{$oView->getConfigParam('sFCPOCCYearCSS')}]",
-                [{/if}]
-                [{if $oView->getConfigParam('sFCPOCCYearIframe') == "custom"}]
-                    iframe: {
-                        width: "[{$oView->getConfigParam('sFCPOCCYearWidth')}]",
-                        height: "[{$oView->getConfigParam('sFCPOCCYearHeight')}]"
-                    }
-                [{/if}]
+                size: 5,
+                maxlength: 4,
             }
         },
         defaultStyle: {
-            input: "[{$oView->getConfigParam('sFCPOCCStandardInput')}]",
-                select: "[{$oView->getConfigParam('sFCPOCCStandardOutput')}]",
-                iframe: {
-                    width: "[{$oView->getConfigParam('sFCPOCCIframeWidth')}]",
-                    height: "[{$oView->getConfigParam('sFCPOCCIframeHeight')}]"
-                }
+            input: "width:223px;height:30px;padding: 0 9px;font-size:14px;font-family:'Helvetica Neue',Verdana,Arial,sans-serif;",
+            select: "width:100px",
+            iframe: {
+                width: "365px",
+                height: "30px"
+            }
         },
-        [{if $oView->getConfigParam('blFCPOCCErrorsActive')}]
-            error: "errorOutput", // area to display error-messages (optional)
-            [{if $oView->getConfigParam('sFCPOCCErrorsLang') == "de"}]
-                language: Payone.ClientApi.Language.de // Language to display error-messages
-            [{else}]
-                language: Payone.ClientApi.Language.en
-            [{/if}]
-        [{/if}]
+        error: "errorOutput", // area to display error-messages (optional)
     };
+
+
     [{capture name="fcpoCCIframes"}]
         [{foreach from=$oViewConf->fcpoGetIframeMappings() item='oMapping'}]
-            [{assign var='sLangId' value=$oMapping->sLangId}]
-            [{assign var='sLangAbbr' value=$oViewConf->fcpoGetLangAbbrById($sLangId)}]
-            Payone.ClientApi.Language.[{$sLangAbbr}].[{$oMapping->sErrorCode}] = '[{$oMapping->sMappedMessage}]';
+
         [{/foreach}]
-        var iframes = fcInitCCIframes();
+        var iframes = fcInitCCIframes(config);
     [{/capture}]
     [{oxscript add=$smarty.capture.fcpoCCIframes}]
 </script>

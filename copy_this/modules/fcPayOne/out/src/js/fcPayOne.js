@@ -735,9 +735,18 @@ function fcInitCCIframes() {
 
 function startCCHostedRequest() { // Function called by submitting PAY-button
     if (iframes.isComplete()) {
+        console.log('test');
+
         iframes.creditCardCheck('processPayoneResponseCCHosted');// Perform "CreditCardCheck" to create and get a
         // PseudoCardPan; then call your function "payCallback"
     } else {
+        if(iframes.isCardTypeComplete() &&
+        iframes.isCardpanComplete() &&
+        iframes.isExpireMonthComplete() &&
+        iframes.isExpireYearComplete())
+        {
+            console.log('cvc missing');
+        }
         console.debug("not complete");
     }
     return false;
@@ -751,6 +760,10 @@ function startCCHostedRequest() { // Function called by submitting PAY-button
 function processPayoneResponseCCHosted(response) {
     response = validateCardExpireDate(response);
     console.log(response);
+    console.log(config);
+
+    throw new Error('123');
+
     if (response.status === "VALID") {
         var oForm = getPaymentForm();
         oForm["dynvalue[fcpo_pseudocardpan]"].value = response.pseudocardpan;

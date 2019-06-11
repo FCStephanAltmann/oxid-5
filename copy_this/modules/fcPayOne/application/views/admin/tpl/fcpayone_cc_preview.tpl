@@ -1,6 +1,6 @@
 [{ oxmultilang ident="FCPO_PREVIEW_NOTICE" }]
 <div style="border:1px solid #000;padding:10px;background-color: #fff;">
-    <script type="text/javascript" src="https://secure.pay1.de/client-api/js/v1/payone_hosted_min.js"></script>
+    <script type="text/javascript" src="https://secure.pay1.de/client-api/js/v1/payone_hosted.js"></script>
     <input type="hidden" name="dynvalue[fcpo_kknumber]" value="">
     <input type="hidden" name="fcpo_cc_type" value="hosted">
     <table>
