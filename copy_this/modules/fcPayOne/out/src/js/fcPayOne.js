@@ -723,12 +723,17 @@ function fcInitCCIframes() {
     };
     var iframes = new Payone.ClientApi.HostedIFrames(config, request);
     iframes.setCardType("V");
-    sCardTypeId = 'cardtype';
-    if(document.getElementById('sFcpoCreditCardSelected')) {
-        sCardTypeId = 'sFcpoCreditCardSelected';
+
+    if(document.getElementById('cardtype')) {
+        var selectCardTypeEelement = document.getElementById('cardtype');
+        console.log(selectCardTypeEelement.value);
+        iframes.setCardType(selectCardTypeEelement.value);
     }
-    document.getElementById(sCardTypeId).onchange = function () {
-        iframes.setCardType(this.value); // on change: set new type of credit card to process
+
+    selectCardTypeEelement.onchange = function () {
+
+        console.log(selectCardTypeEelement.value);
+        iframes.setCardType(selectCardTypeEelement.value); // on change: set new type of credit card to process
     };
     return iframes;
 }
@@ -738,6 +743,14 @@ function startCCHostedRequest() { // Function called by submitting PAY-button
         iframes.creditCardCheck('processPayoneResponseCCHosted');// Perform "CreditCardCheck" to create and get a
         // PseudoCardPan; then call your function "payCallback"
     } else {
+        if(iframes.isCardTypeComplete() &&
+            iframes.isCardpanComplete() &&
+            iframes.isExpireMonthComplete() &&
+            iframes.isExpireYearComplete())
+        {
+            console.log('cvc missing');
+        }
+
         console.debug("not complete");
     }
     return false;

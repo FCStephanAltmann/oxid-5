@@ -23,6 +23,7 @@
                     type: "[{$oView->getConfigParam('sFCPOCCCVCType')}]", // select(default), text, password, tel
                     size: "[{$oView->getConfigParam('sFCPOCCCVCCount')}]",
                     maxlength: "[{$oView->getConfigParam('sFCPOCCCVCMax')}]",
+                    length: { "A": 4, "V": 3, "M": 3, "J": 3, "D": 3, "O": 3, "C": 3, "B": 3 },
                     [{if $oView->getConfigParam('sFCPOCCCVCStyle') == "custom"}]
                         style: "[{$oView->getConfigParam('sFCPOCCCVCCSS')}]",
                     [{/if}]

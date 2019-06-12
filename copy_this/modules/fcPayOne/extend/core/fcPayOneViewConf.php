@@ -446,23 +446,6 @@ class fcPayOneViewConf extends fcPayOneViewConf_parent {
     }
 
     /**
-     * Returns if amazon runs in async mode
-     *
-     * @param void
-     * @return bool
-     */
-    public function fcpoIsAmazonAsyncMode() {
-        $oConfig = $this->getConfig();
-        $sFCPOAmazonMode = $oConfig->getConfigParam('sFCPOAmazonMode');
-        $blReturn = false;
-        if ($sFCPOAmazonMode == 'alwaysasync') {
-            $blReturn = true;
-        }
-
-        return $blReturn;
-    }
-
-    /**
      * Checks if popup method should be used. Depends on setting and/or
      * ssl state
      *
